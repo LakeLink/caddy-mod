@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build the Docker image
+      uses: docker/build-push-action@v3.2.0
+      with:
+        context: .
+        file: ./Dockerfile
+        tags: ghcr.io/lakelink/caddy-mod:latest
+        push: true
+        cache-from: type=registry,ref=ghcr.io/lakelink/caddy-mod:latest
+        cache-to: type=inline
